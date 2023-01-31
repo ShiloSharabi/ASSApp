@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  auth_service:
+    build: ./auth-service
+    depends_on:
+      - auth_service_db #: 
+        #condition: service_completed_successfully
+    ports:
+      - "3000:3000"
+    environment:
+      # NODE_ENV: production
+      DB_HOST: auth_service_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+      LIST_PER_PAGE: 10
+    links:
+      - auth_service_db
+    volumes:
+      - './:/src'
+  auth_service_db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - auth_service_db:/var/lib/postgresql/data
+      - ./auth-service-db/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+volumes:
+  auth_service_db:
+    driver: local
