@@ -3,20 +3,38 @@ services:
   auth_service:
     build: ./auth-service
     depends_on:
-      - auth_service_db #: 
+      - auth_service_db #:
+      - mail_service 
         #condition: service_completed_successfully
     ports:
       - "3000:3000"
     environment:
       # NODE_ENV: production
+      # db properties
       DB_HOST: auth_service_db
       DB_PORT: 5432
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_NAME: postgres
       LIST_PER_PAGE: 10
+      # mail properties
+      MAIL_HOST: mail_service
+      MAIL_PORT: 3001
     links:
       - auth_service_db
+      - mail_service
+    volumes:
+      - './:/src'
+  mail_service:
+    build: ./mail-service
+    ports:
+      - "3001:3001"
+    environment:
+      # NODE_ENV: production
+      MAIL_ADDRESS: flugy.autoservice@gmail.com
+      MAIL_PASSWORD: ejludqomewtntyws
+    links:
+      - auth_service
     volumes:
       - './:/src'
   auth_service_db:

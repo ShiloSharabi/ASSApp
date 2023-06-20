@@ -1,5 +1,4 @@
-
-const env = process.env;
+import { env } from "./env.configuration";
 
 export const DB_CONFIGURATION = {
     db: {

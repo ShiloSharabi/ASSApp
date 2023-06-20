@@ -19,4 +19,4 @@ CREATE TABLE organizations (
 );
 
 INSERT INTO users (user_email, user_password, user_first_name, user_last_name, user_role, user_org, approved) VALUES 
-('shilo050@gmail.com', 'Su112233', 'super', 'user', 'admin', 0, 'true');
+('flugy.autoservice@gmail.com', 'Flugy112233', 'super', 'user', 'auperadmin', 0, 'true');
